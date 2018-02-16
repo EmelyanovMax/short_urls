@@ -1,0 +1,6 @@
+DirectoryIndex index.php
+Options -Indexes
+php_flag register_globals off
+RewriteEngine on
+#It makes the URL similar to http://localhost/ak31genr
+RewriteRule ^a(.*) redirect.php?key=$1 [L]
