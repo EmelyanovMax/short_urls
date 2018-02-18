@@ -1,7 +1,9 @@
-# short_urls
+<snippet>
+ <content><![CDATA[
+ # ${1:Project Name}
 URL shorter
 
-REQUIREMENTS
+##REQUIREMENTS
 ----------------------
 
 Drupal requires:
@@ -11,13 +13,13 @@ Drupal requires:
 - Databases - MySQL 5.0.15 (or greater) (http://www.mysql.com/) (Did not tested on other)
 
 
-INSTALLATION
+##INSTALLATION
 ------------
 
 1. Download and extract archive.
 
    Clone repository
-   git clone https://github.com/EmelyanovMax/short_urls.git
+    `git clone https://github.com/EmelyanovMax/short_urls.git`
 
 2. Setup application
 
@@ -31,3 +33,7 @@ INSTALLATION
 3. Change settings in 'settings.php'
 	
 4. Enjoy!
+
+]]></content>
+  <tabTrigger>readme</tabTrigger>
+</snippet>
