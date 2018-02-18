@@ -1,5 +1,4 @@
-<snippet>
- <content>
+
 # short_urls
 URL shorter
 
@@ -24,7 +23,9 @@ INSTALLATION
     Include Javascript files to your app:
         add the following lines in your HTML template (for example 'index.html')
         where PATH_TO_APP is path to this app
+        
         `<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>`
+        
         `<script src="PATH_TO_APP/js/script.js"></script>`
 
 
@@ -32,5 +33,4 @@ INSTALLATION
 	
 4. Enjoy!
 
-</content>
-</snippet>
+
