@@ -16,9 +16,8 @@ INSTALLATION
 
 1. Download and extract archive.
 
-   You can obtain the app from 'https://www.dropbox.com/sh/0jm8f7yfa14v8cc/AAC2BdfKZ7y99LRX2322NsXSa?dl=0' -- the files
-   are available in .tar.gz and .zip formats
-
+   Clone repository
+   git clone https://github.com/EmelyanovMax/short_urls.git
 
 2. Setup application
 
