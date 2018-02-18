@@ -1,24 +1,23 @@
-(function($) {
-    $(document).ready(function() {
-        $('form').on('submit',function(e){
+(function ($) {
+    $(document).ready(function () {
+        $('form').submit(function (e) {
             e.preventDefault();
+            var a = $(this).serialize();
             $.ajax({
-                type     : "POST",
-                cache    : false,
-                url      : 'shorturl.php',
-                data     : $(this).serialize(),
-                success  : function(data) {
-                    var element = document.getElementById("result");
-                    var old_result = element.childNodes;
-                   if (typeof old_result[0] !== 'undefined'){
-                       old_result[0].parentNode.removeChild(old_result[0]);
-                   }
-                    var result = document.createElement("span");
-                    var node = document.createTextNode(data);
-                    result.appendChild(node);
-                    element.appendChild(result);
-                }
-            });
+                type: "POST",
+                cache: false,
+                url: 'shorturl.php',
+                data: a,
+                success:
+                    function (data) {
+                        var old_result = $('#result').children();
+                        if (old_result[0]) {
+                            old_result.remove();
+                        }
+                        $('#result').append("<span>" + data + "</span>");
+                    }
+            })
+            ;
         });
     });
 })(jQuery);

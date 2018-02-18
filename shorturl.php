@@ -6,33 +6,49 @@
  * Time: 17:41
  */
 
-include_once ('sql.php');
+include_once('sql.php');
 
 $link = $_POST['url'];
 
-//Find URL in database
-$sqlSelect = "SELECT * FROM `short_urls` WHERE `url_primary` ='" . $link . "'";
-$select = $pdo->query($sqlSelect)->fetch();
+if ($link != '') {
+	$result = '';
 
-//Create if does not exist
-if (!$select) {
-    $letters='qwertyuiopasdfghjklzxcvbnm1234567890';
-    $count=strlen($letters);
-    $intval=rand(0, time());
-    $result='';
+//  Find URL in database
+	$sqlSelect = "SELECT * FROM `short_urls` WHERE `url_primary` ='" . $link . "'";
+	try {
+		$query = $pdo->prepare($sqlSelect);
+		$query->execute(array($link));
+	} catch (PDOException  $e) {
+		echo "Error: " . $e;
+	}
+	$select = $query->fetch();
 
-    for($i=0;$i<4;$i++) {
-        $last=$intval%$count;
-        $intval=($intval-$last)/$count;
-        $result.=$letters[$last];
-    }
+//  Create if does not exist
+	if (!$select) {
+//		This is because later we add 'a' in the beginning of short url
+		$letters = (int)($hash_length - 1);
 
-    $sqlInsert = "INSERT INTO `short_urls` (`id`, `url_primary`, `key_short`) VALUES (NULL, '" . $link . "', '" . $result . $intval . "') ";
-    $pdo->query($sqlInsert);
+		$hash = md5($link);
+		$key = substr($hash, -$letters);
 
-    $select = $pdo->query($sqlSelect)->fetch();
+		$sqlInsert = "INSERT INTO `short_urls` (`id`, `url_primary`, `key_short`) VALUES (NULL, '" . $link . "', '" . $key . "') ";
+		try {
+			$q = $pdo->prepare($sqlInsert);
+			$q->execute(array($link, $key));
+		} catch (PDOException  $e) {
+			echo "Error: " . $e;
+		}
 
+		try {
+			$query->execute(array($link));
+		} catch (PDOException  $e) {
+			echo "Error: " . $e;
+		}
+		$select = $query->fetch();
+	}
+
+	$result = 'http://' . $_SERVER['HTTP_HOST'] . '/a' . $select['key_short'];
+	print_r($result);
+} else {
+	print_r("ERROR: Please enter URL");
 }
-
-$result = 'http://'.$_SERVER['HTTP_HOST'].'/a'.$select['key_short'];
-print_r ($result);

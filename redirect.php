@@ -6,23 +6,30 @@
  * Time: 12:54
  */
 
-//Connect the database
-require_once ('sql.php');
+//  Connect the database
+require_once('sql.php');
 
 $key = htmlspecialchars($_GET['key']);
 
-if(!empty($_GET['key'])){
-    $sql = "SELECT * FROM `short_urls` WHERE `key_short` ='" . $key . "'";
+if (!empty($key)) {
+	$sql = "SELECT * FROM `short_urls` WHERE `key_short` ='" . $key . "'";
 
-//Check short URL in database
-    $select = $dbh->query($sql)->fetch();
+	try {
+		$query = $pdo->prepare($sql);
+		$query->execute(array($key));
+	} catch (PDOException  $e) {
+		echo "Error: " . $e;
+	}
 
-//Redirect if short URL is found
-    if($select){
-        $result = [
-            'url_primary' => $select['url_primary'],
-            'key' => $select['key_short']
-        ];
-        header('location: ' . $result['url_primary']);
-    }
+//	Check short URL in database
+	$select = $query->fetch();
+
+//	Redirect if short URL is found
+	if ($select) {
+		$result = [
+			'url_primary' => $select['url_primary'],
+			'key' => $select['key_short']
+		];
+		header('Location: ' . $result['url_primary']);
+	}
 }
